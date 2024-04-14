@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Update Account Details</title>
+ <style>
+   body {
+            background-image: url('/static/img/final.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            color:white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .container {
+            background-color: transparent; /* White container background */
+            padding: 20px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 0 10px #fff;
+            box-shadow: 0 0 10px #fff;
+            margin-top: 100px;
+            margin-bottom: 150px;
+            width: 500px;
+        }
+        img{
+        margin-bottom:20px;
+        border:3px solid black;
+
+        }
+        input[type="text"],
+            input[type="email"],
+            input[type="number"],
+            input[type="password"],
+            input[type="date"],
+            select {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 15px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+            }
+                button {
+           background-color:transparent;
+           border: none;
+           color: white;
+           padding: 15px 20px;
+           text-align: center;
+           text-decoration: none;
+           display: inline-block;
+           font-size: 16px;
+           font-weight: bolder;
+           transition-duration: 0.4s;
+           border-radius: 50px;
+           box-shadow: 0 5px 15px rgba(3, 201, 169, 0.4);
+           cursor: pointer;
+           width: 100%; /* Make the button full width */
+        }
+        button:hover {
+            background-color: white;
+                    color: green;
+        }
+             label{
+        font-size:18px;
+        color:white;
+        float:left;
+             }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Update Account Details</h2>
+    <form id="/update" method="POST">
+        <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" placeholder="Last Name, First Name Middle Name" name="name">
+
+        <label for="email">Email address:</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+
+          <label for="name">Address:</label>
+          <input type="text" class="form-control" id="address" placeholder="Enter Address" name="address">
+
+          <label for="name">Birthdate:</label>
+          <input type="date" class="form-control" id="bd" placeholder="Enter Birthdate" name="birthdate">
+
+          <label for="name">Gender:</label>
+          <input type="text" class="form-control" id="gender" placeholder="Female or Male" name="gender">
+
+          <label for="name">Phone Number:</label>
+          <input type="number" class="form-control" id="number" placeholder="Enter phone number" name="number">
+
+          <label for="name">Marital Status:</label>
+          <input type="text" class="form-control" id="status" placeholder="Enter marital status" name="status">
+
+          <label for="name">Occupation:</label>
+          <input type="text" class="form-control" id="occupation" placeholder="Enter occupation" name="occupation">
+
+          <label for="name">Employer:</label>
+          <input type="text" class="form-control" id="employer" placeholder="Enter employer" name="employer">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Your Password" required>
+
+
+        <button onclick="window.location.href = '{{url_for( 'accounts' ) }}';">Update Details</button>
+    </form>
+</div>
+<script>
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Get the form data
+        const accountNumber = document.getElementById('accountNumber').value;
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Perform any validation here (e.g., check if fields are not empty)
+
+        // Update account details (for demonstration, we'll just log them to the console)
+        console.log('Account Number:', accountNumber);
+        console.log('Name:', name);
+        console.log('Email:', email);
+        console.log('Password:', password);
+
+        // You can also submit the form data to a server using fetch or XMLHttpRequest
+        // For example:
+        /*
+        fetch('https://api.example.com/updateAccount', {
+            method: 'POST',
+            body: JSON.stringify({ accountNumber, name, email, password }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Update successful:', data);
+            // Redirect to another page or show a success message
+        })
+        .catch(error => {
+            console.error('Update failed:', error);
+            // Handle error, show error message, etc.
+        });
+        */
+
+        // Optionally, redirect to another page after the update
+        // window.location.href = 'updated.html';
+    });
+</script>
+</body>
+</html>

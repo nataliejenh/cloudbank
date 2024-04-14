@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Bank Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+
+       body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure the body takes at least the viewport height */
+    margin: 0;
+    padding: 0;
+    background-image: url('/static/img/final.gif');
+    background-size: cover;
+    background-repeat: no-repeat;;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: transparent;
+    color: white;
+    padding: 20px;
+    width: 200px;
+}
+
+.main-content {
+    padding: 20px;
+    background-color: white;
+    width: 800px; /* Fixed width */
+    /* Add box-shadow or other styles for better visual separation if needed */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+        .sidebar .logo {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .icons {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .icons i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar .icons i:hover {
+            color: #f8f9fa;
+        }
+
+        .navbar-brand {
+            color: #343a40;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .profile {
+
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+
+            border-radius: 50%;
+            width: 150px; /* Increased width */
+            height: 150px; /* Increased height, adjust as needed */
+
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .list-group-item {
+            border: none;
+        }
+
+        .badge-primary {
+            background-color: #007bff;
+        }
+
+        .badge-success {
+            background-color: #28a745;
+        }
+
+        .badge-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            transition: background-color 0.3s;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+        }
+
+        table th {
+            background-color: #343a40;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        table td {
+            padding: 0.75rem;
+            vertical-align: middle;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            margin-bottom: 30px;
+        }
+
+        .row {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">ℂ𝕃𝕆𝕌𝔻𝔹𝔸ℕ𝕂</div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='img/N.jpg') }}" alt="Profile">
+        </div>
+        <h style="font-size:24px; color:white;">Admin Natalie</h>
+        <div class="icons">
+            <i class="fas fa-user" onclick="window.location.href='{{ url_for('messages') }}'"></i>
+            <i class="fas fa-bell" onclick="window.location.href='{{ url_for('comments') }}'"></i> <!-- Notification icon -->
+            <i class="fas fa-address-book" onclick="window.location.href='{{ url_for('admin_transaction') }}'"></i>
+            <i class="fas fa-power-off" onclick="window.location.href='{{ url_for('logout') }}'"></i>
+
+        </div>
+    </div>
+
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Cloud Bank Admin</a>
+            </div>
+        </nav>
+        <div class="container">
+            <h1 class="mt-3">Dashboard</h1>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var data = {
+            labels: ['Loans', 'Investments', 'Deposits', 'Withdrawals', 'Payments', 'Transfers'],
+            datasets: [{
+                label: 'Amount',
+                data: [{{loan}}, {{investment}}, {{deposit}}, {{ withdraw }}, {{paybills}}, {{transfer}}],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.8)',
+                    'rgba(54, 162, 235, 0.8)',
+                    'rgba(255, 206, 86, 0.8)',
+                    'rgba(75, 192, 192, 0.8)',
+                    'rgba(153, 102, 255, 0.8)',
+                    'rgba(255, 159, 64, 0.8)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 5000
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

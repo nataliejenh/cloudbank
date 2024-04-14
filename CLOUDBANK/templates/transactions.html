@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transaction History</title>
+<style>
+    /* Styles for the transaction page */
+ body {
+   background-image: url('/static/img/final.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: auto;
+}
+
+     .container {
+            background-color: transparent; /* White container background */
+            padding: 20px;
+            border-radius: 10px;
+            -webkit-box-shadow: 0 0 10px #fff;
+            box-shadow: 0 0 10px #fff;
+            margin-top: 90px;
+            margin-bottom: 90px;
+            width: 600px;
+        }
+ h1{
+            color:white;
+            font-size: 24px;
+            margin-bottom: 20px;
+}
+
+.filters {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+
+}
+
+.filters label {
+  margin-right: 10px;
+  color:white;
+  font-size:20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+table th,
+table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+table th {
+  background-color: #03C988;
+  color: #fff;
+  font-weight: bold;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+  background-color: #e0e0e0;
+}
+
+input[type="text"] {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+    select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  width: 150px;
+    }
+
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Transaction History</h1>
+    <div class="filters">
+        <label for="filter">Filter by:</label>
+        <select id="filter">
+            <option value="all">All Transactions</option>
+            <option value="Received">Received</option>
+            <option value="Transfer">Transfer</option>
+            <option value="Withdraw">Withdraw</option>
+            <option value="Paybills">Paybills</option>
+            <option value="Investment">Investment</option>
+            <option value="Loans">Loans</option>
+        </select>
+        <input type="text" id="search" placeholder="Search transactions...">
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Account Balance</th>
+            </tr>
+        </thead>
+        <tbody id="transactionList">
+            <!-- Transaction rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+
+</div>
+
+<script>
+    // Sample data for transactions (replace with actual data)
+const transactions = {{ transaction|tojson }};
+
+// Function to display transactions based on filter and search query
+function displayTransactions(filter, search) {
+    const transactionList = document.getElementById('transactionList');
+    transactionList.innerHTML = '';
+
+    transactions.forEach(transaction => {
+        if ((filter === 'all' || transaction.description.includes(filter)) &&
+            (search === '' || transaction.description.toLowerCase().includes(search.toLowerCase()))) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${transaction.date} | ${transaction.time}</td>
+                <td>${transaction.description}</td>
+                <td>${transaction.amount}</td>
+                <td>₱${transaction.balance}</td>
+            `;
+            transactionList.appendChild(row);
+        }
+    });
+}
+
+// Initial display of all transactions
+displayTransactions('all', '');
+
+// Event listeners for filter and search
+document.getElementById('filter').addEventListener('change', function() {
+    const filter = this.value;
+    const search = document.getElementById('search').value.trim();
+    displayTransactions(filter, search);
+});
+
+document.getElementById('search').addEventListener('input', function() {
+    const filter = document.getElementById('filter').value;
+    const search = this.value.trim();
+    displayTransactions(filter, search);
+});
+
+</script>
+</body>
+</html>

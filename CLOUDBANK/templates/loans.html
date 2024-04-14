@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loan Options</title>
+ <style>
+        body {
+   background-image: url('/static/img/final.gif');
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   margin: 0;
+   padding: 0;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+   background-color: transparent;
+   backdrop-filter: blur(8px);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 0 20px white;
+   margin-top: 100px;
+   margin-bottom: 150px;
+   width: 400px;
+}
+h1{
+   color:white;
+   font-size: 24px;
+   margin-bottom: 20px;
+}
+p{
+color:white;
+}
+
+form {
+   margin-bottom:40px;
+}
+label{
+font-size:18px;
+color:white;
+float:left;
+margin-bottom: 10px; /* Adjust spacing */
+}
+
+input[type="number"], input[type="text"], select {
+   width: 100%;
+   padding: 12px; /* Increased padding for better touch interaction */
+   margin-bottom: 20px; /* Adjust spacing */
+   box-sizing: border-box;
+   border: none;
+   border-radius: 5px;
+   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+   transition: all 0.3s ease;
+}
+input[type="number"]:focus, input[type="text"]:focus, select:focus {
+   outline: none;
+   box-shadow: 0 0 5px rgba(3, 201, 169, 0.7);
+}
+
+button {
+   background-color:transparent;
+   border: none;
+   color: white;
+   padding: 15px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   font-weight: bolder;
+   transition-duration: 0.4s;
+   border-radius: 50px;
+   box-shadow: 0 5px 15px rgba(3, 201, 169, 0.4);
+   cursor: pointer;
+   width: 100%; /* Make the button full width */
+}
+button:hover {
+    background-color: white;
+            color: green;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Loan Options</h1>
+    <p>Explore our loan options below:</p>
+
+    <form id="/loans" method="POST">
+        <label for="loanType">Select Loan Type:</label>
+        <select id="loanType" style="height:50px;" name="loanType">
+            <option value="Personal">Personal Loan</option>
+            <option value="Home">Home Loan</option>
+            <option value="Auto">Auto Loan</option>
+        </select><br>
+        <label for="amount">Loan Amount:</label>
+        <input type="number" style="height:50px;" id="amount" name="amount" placeholder="Enter loan amount"><br>
+        <label for="term">Loan Term (months):</label>
+        <input type="number" style="height:50px;" id="term" name="term" placeholder="Enter loan term"><br>
+        <button>Apply for Loan</button>
+    </form>
+</div>
+</body>
+</html>

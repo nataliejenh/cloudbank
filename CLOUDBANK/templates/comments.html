@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comments Page</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('/static/img/final.gif');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .comment-container {
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            width: 600px;
+            height:auto;
+            text-align:center;
+        }
+
+        .comment {
+            border: 1px solid black;
+            padding: 10px;
+
+        }
+
+        .comment:last-child {
+            border-bottom: 1px solid black;
+        }
+
+        .comment-header {
+            font-weight: bold;
+        }
+
+        .comment-body {
+
+            margin-top: 5px;
+
+        }
+         .sidebar {
+    /* Make sure sidebar stays at a fixed position */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color:transparent;
+    color: white;
+    padding: 20px;
+    width: 200px;
+    border:2px solid white;
+
+}
+         .sidebar .logo {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .icons {
+            display: flex;
+            flex-direction: column;
+            padding-top:40px;
+            float:left;
+        }
+
+        .sidebar .icons i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar .icons i:hover {
+            color: #f8f9fa;
+        }
+        .profile {
+
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+
+            border-radius: 50%;
+            width: 150px; /* Increased width */
+            height: 150px; /* Increased height, adjust as needed */
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="sidebar">
+        <div class="logo">ℂ𝕃𝕆𝕌𝔻𝔹𝔸ℕ𝕂</div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='img/N.jpg') }}" alt="Profile">
+        </div>
+        <h style="font-size:24px; color:white;margin-left:10px;">Admin Natalie</h>
+        <div class="icons">
+            <i class="fas fa-user" onclick="window.location.href='{{ url_for('messages') }}'"></i>
+            <i class="fas fa-bell" onclick="window.location.href='{{ url_for('comments') }}'"></i> <!-- Notification icon -->
+            <i class="fas fa-address-book" onclick="window.location.href='{{ url_for('admin_transaction') }}'"></i>
+            <i class="fas fa-power-off" onclick="window.location.href='{{ url_for('logout') }}'"></i>
+
+        </div>
+    </div>
+
+
+    <div class="comment-container">
+        <h1 style="text-align:center;">Comments</h1>
+        {% for i in output %}
+        <div class="comment">
+
+            <div class="comment-body">{{i[2]}} from {{i[1]}}</div>
+        </div>
+{% endfor %}
+        <!-- More comments -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Balance</title>
+</head>
+    <style>
+        body {
+   background-image: url('/static/img/final.gif');
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   margin: 0;
+   padding: 0;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+   background-color: transparent;
+   backdrop-filter: blur(8px);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 0 20px white;
+   margin-top: 100px;
+   margin-bottom: 150px;
+   width: 400px;
+}
+h1{
+   color:white;
+   font-size: 24px;
+   margin-bottom: 20px;
+}
+
+h2{
+ color: white; /* Set the text color to white */
+            font-size: 18px;
+            line-height: 1.5; /* Adjust line height for better readability */
+            margin-bottom: 20px;
+}
+ button {
+        background-color:transparent;
+            border: 2px solid;
+            color:white;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            font-weight: bolder;
+            transition-duration: 0.4s;
+            border-radius:50px;
+             -webkit-box-shadow: 0 0 10px #fff;
+               box-shadow: 0 0 10px #fff;
+            float:right;
+    }
+    button:hover {
+        background-color: white;
+            color: green;
+        }
+</style>
+
+
+<body>
+<div class = "container">
+<h1>Balance</h1>
+<h2> Amount : ₱ {{ balance }}</h2>
+
+          <button onclick="window.location.href='{{ url_for('home') }}'">DONE</button>
+
+
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body {
+   background-image: url('/static/img/final.gif');
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-position: center;
+   margin: 0;
+   padding: 0;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+   background-color: transparent;
+   backdrop-filter: blur(8px);
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 0 20px white;
+   margin-top: 100px;
+   margin-bottom: 150px;
+   width: 400px;
+}
+h1{
+   color:white;
+   font-size: 24px;
+   margin-bottom: 20px;
+}
+
+p{
+ color: white; /* Set the text color to white */
+            font-size: 18px;
+            line-height: 1.5; /* Adjust line height for better readability */
+            margin-bottom: 20px;
+}
+button {
+   background-color:transparent;
+   border: none;
+   color: white;
+   padding: 15px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   font-weight: bolder;
+   transition-duration: 0.4s;
+   border-radius: 50px;
+   box-shadow: 0 5px 15px rgba(3, 201, 169, 0.4);
+   cursor: pointer;
+   width: 100%; /* Make the button full width */
+}
+button:hover {
+    background-color: white;
+            color: green;
+}
+</style>
+</head>
+<body>
+
+<div class = "container">
+       <h1>Transaction Details</h1>
+
+
+      <p>  Good Day, you have successfully purchased  <strong>{{ loan_type }} Loan </strong> with the amount of<strong>  ₱{{ loan_amount }}</strong> to be paid for<strong> {{ loan_term }} months</strong>.Your monthly payment will be<strong>  ₱{{ monthly_payment }} per  months</strong>.
+    </p>
+
+
+<p>Thank you for trusting!</p>
+
+      <button onclick="window.location.href='{{ url_for('home') }}'">DONE</button>
+
+
+</body>
+</html>

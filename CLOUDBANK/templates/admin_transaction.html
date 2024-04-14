@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<style>
+    /* Styles for the transaction page */
+body {
+    background-image: url('/static/img/final.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color:transparent;
+    backdrop-filter: blur(8px);
+    border:3px solid white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+.filters {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    color:white;
+}
+.filters label {
+    margin-right: 10px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+table th{
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    color:black;
+}
+table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+/* Sidebar styles */
+.sidebar {
+    /* Make sure sidebar stays at a fixed position */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: transparentS;
+    color: white;
+    padding: 20px;
+    width: 200px;
+    border:2px solid white;
+
+}
+
+  .sidebar .logo {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .icons {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar .icons i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar .icons i:hover {
+            color: #f8f9fa;
+        }
+/* Content styles */
+.content {
+    margin-left: 200px;
+    padding: 20px;
+}
+
+.delete-button {
+    color: red;
+    cursor: pointer;
+}
+    .profile {
+
+            align-items: center;
+            padding: 10px 15px;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .profile img {
+
+            border-radius: 50%;
+            width: 150px; /* Increased width */
+            height: 150px; /* Increased height, adjust as needed */
+
+        }
+
+
+</style>
+</head>
+<body>
+ <div class="sidebar">
+        <div class="logo">ℂ𝕃𝕆𝕌𝔻𝔹𝔸ℕ𝕂</div>
+        <div class="profile">
+            <img src="{{ url_for('static', filename='img/N.jpg') }}" alt="Profile">
+        </div>
+        <h1 style="font-size:24px;">Admin Natalie</h1>
+        <div class="icons">
+            <i class="fas fa-user" onclick="window.location.href='{{ url_for('messages') }}'"></i>
+            <i class="fas fa-bell" onclick="window.location.href='{{ url_for('comments') }}'"></i> <!-- Notification icon -->
+            <i class="fas fa-address-book" onclick="window.location.href='{{ url_for('admin_transaction') }}'"></i>
+            <i class="fas fa-power-off" onclick="window.location.href='{{ url_for('logout') }}'"></i>
+        </div>
+    </div>
+
+
+<div class="content">
+    <div class="container">
+        <h1>Transaction History</h1>
+        <div class="filters">
+            <label for="filter" >Filter by:</label>
+            <select id="filter" style="height:35px; font-size:14px;">
+                <option value="all">All Transactions</option>
+                <option value="Received">Received</option>
+                <option value="Transfer">Transfer</option>
+                <option value="Withdraw">Withdraw</option>
+                <option value="Paybills">Paybills</option>
+                <option value="Investment">Investment</option>
+                <option value="Loans">Loans</option>
+            </select>
+            <input type="text" id="search" placeholder="Search transactions..." style="height:30px;">
+        </div>
+        <table style="border:3px solid white; background-color:white; backdrop-filter: blur(8px);border:3px solid blue;">
+            <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Account Balance</th>
+
+                </tr>
+            </thead>
+            <tbody id="transactionList">
+                <!-- Transaction rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    // Sample data for transactions (replace with actual data)
+const transactions = {{ transaction|tojson }};
+
+// Function to display transactions based on filter and search query
+function displayTransactions(filter, search) {
+    const transactionList = document.getElementById('transactionList');
+    transactionList.innerHTML = '';
+
+    transactions.forEach(transaction => {
+        if ((filter === 'all' || transaction.description.includes(filter)) &&
+            (search === '' || transaction.description.toLowerCase().includes(search.toLowerCase()))) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${transaction.account_number}</td>
+                <td>${transaction.date} | ${transaction.time}</td>
+                <td>${transaction.description}</td>
+                <td>${transaction.amount}</td>
+                <td>₱${transaction.balance}</td>`
+            transactionList.appendChild(row);
+        }
+    });
+}
+
+// Initial display of all transactions
+displayTransactions('all', '');
+
+// Event listeners for filter and search
+document.getElementById('filter').addEventListener('change', function() {
+    const filter = this.value;
+    const search = document.getElementById('search').value.trim();
+    displayTransactions(filter, search);
+});
+
+document.getElementById('search').addEventListener('input', function() {
+    const filter = document.getElementById('filter').value;
+    const search = this.value.trim();
+    displayTransactions(filter, search);
+});
+
+// Function to delete a transaction
+function deleteTransaction(account_number) {
+    // Replace this with your actual delete logic
+    alert(`Deleting transaction with ID: ${id}`);
+}
+
+</script>
+</body>
+</html>
